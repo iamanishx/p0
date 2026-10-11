@@ -1,4 +1,8 @@
+import argparse
+
+from compiler.interpret import evaluate
 from compiler.ir import Op, UOp
+from compiler.render_c import render_c
 
 
 def build_graph() -> UOp:
@@ -12,8 +16,23 @@ def build_graph() -> UOp:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Build, evaluate, and render a tiny UOp graph."
+    )
+    parser.add_argument(
+        "--emit-c",
+        action="store_true",
+        help="Print only C source, suitable for redirecting to a file.",
+    )
+    args = parser.parse_args()
     graph = build_graph()
-    print("Computation: x * (2 + 3)")
-    print("Graph root:")
-    print(graph)
-    print("\nThis describes the computation; it has not executed it.")
+    if args.emit_c:
+        print(render_c(graph), end="")
+    else:
+        print("Computation: x * (2 + 3)")
+        print("Graph root:")
+        print(graph)
+        print("\nInterpreter result with x = 4:")
+        print(evaluate(graph, {"x": 4}))
+        print("\nGenerated C (without evaluating the graph):")
+        print(render_c(graph), end="")

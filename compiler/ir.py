@@ -3,10 +3,10 @@ from enum import Enum, auto
 
 
 class Op(Enum):
-    CONST = auto()  # A literal integer, such as 2.
-    PARAM = auto()  # An input supplied when the program runs, such as x.
-    ADD = auto()    # Add two input values.
-    MUL = auto()    # Multiply two input values.
+    CONST = auto()
+    PARAM = auto()
+    ADD = auto()
+    MUL = auto()
 
 
 @dataclass(frozen=True)

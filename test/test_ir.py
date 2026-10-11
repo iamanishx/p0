@@ -1,7 +1,7 @@
-"""Check our graph structure, not its numerical result yet."""
+"""Test graph construction."""
 
-from dataclasses import FrozenInstanceError
 import unittest
+from dataclasses import FrozenInstanceError
 
 from compiler.ir import Op, UOp
 from example.simple import build_graph
@@ -20,10 +20,13 @@ class TestIR(unittest.TestCase):
         x, addition = graph.src
         self.assertEqual(x, UOp(Op.PARAM, arg="x"))
         self.assertEqual(addition.op, Op.ADD)
-        self.assertEqual(addition.src, (
-            UOp(Op.CONST, arg=2),
-            UOp(Op.CONST, arg=3),
-        ))
+        self.assertEqual(
+            addition.src,
+            (
+                UOp(Op.CONST, arg=2),
+                UOp(Op.CONST, arg=3),
+            ),
+        )
 
     def test_nodes_can_share_an_input(self):
         x = UOp(Op.PARAM, arg="x")
